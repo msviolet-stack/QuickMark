@@ -1,356 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1.0,
-        maximum-scale=1.0">
-
-  <title>QuickMark</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #1f2937;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 22px 20px;
-    }
-
-    .header-inner {
-      max-width: 760px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: #111827;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .header p {
-      margin: 4px 0 0;
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    .container {
-      max-width: 760px;
-      margin: 28px auto;
-      padding: 0 16px 40px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-
-    /* =========================
-       SUBJECT
-    ========================= */
-
-    .field {
-      margin-bottom: 28px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 7px;
-      color: #4b5563;
-    }
-
-    select {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 16px;
-      background: white;
-    }
-
-    select:focus {
-      outline: none;
-      border-color: #111827;
-    }
-
-
-    /* =========================
-       ANSWER KEY AREA
-    ========================= */
-
-    #answerSection {
-      display: none;
-    }
-
-    .progress-area {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .progress-text {
-      font-size: 13px;
-      color: #6b7280;
-      font-weight: 600;
-    }
-
-    .progress-bar {
-      height: 7px;
-      background: #e5e7eb;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 22px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #111827;
-      transition: width 0.2s;
-    }
-
-
-    /* =========================
-       QUESTIONS
-    ========================= */
-
-    .answer-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px 24px;
-    }
-
-    .question {
-      display: flex;
-      align-items: center;
-      min-height: 48px;
-      padding: 5px 0;
-      border-bottom: 1px solid #f1f1f1;
-    }
-
-    .question-number {
-      width: 42px;
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .options {
-      display: flex;
-      gap: 9px;
-    }
-
-    .option {
-      width: 38px;
-      height: 38px;
-      border: 2px solid #d1d5db;
-      background: white;
-      border-radius: 50%;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.15s;
-      color: #374151;
-    }
-
-    .option:hover {
-      border-color: #6b7280;
-    }
-
-    .option.selected {
-      background: #111827;
-      border-color: #111827;
-      color: white;
-      transform: scale(1.05);
-    }
-
-
-    /* =========================
-       START BUTTON
-    ========================= */
-
-    .start-button {
-      width: 100%;
-      border: none;
-      margin-top: 28px;
-      padding: 17px;
-      border-radius: 12px;
-      background: #111827;
-      color: white;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .start-button:disabled {
-      background: #d1d5db;
-      color: #9ca3af;
-      cursor: not-allowed;
-    }
-
-    .hint {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 12px;
-      margin-top: 11px;
-    }
-
-
-    /* =========================
-       SCAN SCREEN
-    ========================= */
-
-    #scanScreen {
-      display: none;
-    }
-
-    .paper-info {
-      background: #f3f4f6;
-      padding: 13px 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .scan-area {
-      border: 2px dashed #9ca3af;
-      border-radius: 16px;
-      min-height: 330px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      text-align: center;
-      padding: 30px;
-      background: #fafafa;
-    }
-
-    .camera-icon {
-      font-size: 54px;
-      margin-bottom: 12px;
-    }
-
-    .scan-area h2 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .scan-area p {
-      margin: 0;
-      color: #6b7280;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .camera-button {
-      margin-top: 22px;
-      padding: 15px 28px;
-      border: none;
-      border-radius: 11px;
-      background: #111827;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .back-button {
-      width: 100%;
-      border: none;
-      background: transparent;
-      margin-top: 16px;
-      color: #6b7280;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 600px) {
-
-      .container {
-        margin-top: 16px;
-      }
-
-      .card {
-        padding: 19px;
-      }
-
-      .answer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .question {
-        justify-content: space-between;
-      }
-
-      .option {
-        width: 42px;
-        height: 42px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+>
+
+<title>QuickMark</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 18px 20px;
+}
+
+.header-inner {
+  max-width: 760px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+  max-width: 760px;
+  margin: 24px auto;
+  padding: 0 16px 40px;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* =========================
+   SUBJECT
+========================= */
+
+.field {
+  margin-bottom: 28px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+  color: #4b5563;
+}
+
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+  background: white;
+}
+
+/* =========================
+   ANSWER KEY
+========================= */
+
+#answerSection {
+  display: none;
+}
+
+.progress-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 7px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #111827;
+  transition: width 0.2s;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 5px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.question-number {
+  width: 42px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.options {
+  display: flex;
+  gap: 9px;
+}
+
+.option {
+  width: 38px;
+  height: 38px;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #374151;
+}
+
+.option.selected {
+  background: #111827;
+  border-color: #111827;
+  color: white;
+  transform: scale(1.05);
+}
+
+.start-button {
+  width: 100%;
+  border: none;
+  margin-top: 28px;
+  padding: 17px;
+  border-radius: 12px;
+  background: #111827;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.start-button:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.hint {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 12px;
+  margin-top: 11px;
+}
+
+/* =========================
+   SCANNER
+========================= */
+
+#scanScreen {
+  display: none;
+}
+
+.scan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.subject-badge {
+  background: #f3f4f6;
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Camera container */
+
+.camera-container {
+  position: relative;
+  width: 100%;
+  background: black;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+#camera {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Alignment overlay */
+
+.alignment-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.alignment-box {
+  position: absolute;
+
+  left: 7%;
+  right: 7%;
+  top: 8%;
+  bottom: 8%;
+
+  border: 3px solid white;
+  border-radius: 8px;
+
+  box-shadow:
+    0 0 0 2000px rgba(0,0,0,0.35);
+}
+
+/* Corner guides */
+
+.corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+
+.corner.tl {
+  left: -4px;
+  top: -4px;
+  border-left: 5px solid #22c55e;
+  border-top: 5px solid #22c55e;
+}
+
+.corner.tr {
+  right: -4px;
+  top: -4px;
+  border-right: 5px solid #22c55e;
+  border-top: 5px solid #22c55e;
+}
+
+.corner.bl {
+  left: -4px;
+  bottom: -4px;
+  border-left: 5px solid #22c55e;
+  border-bottom: 5px solid #22c55e;
+}
+
+.corner.br {
+  right: -4px;
+  bottom: -4px;
+  border-right: 5px solid #22c55e;
+  border-bottom: 5px solid #22c55e;
+}
+
+.camera-instruction {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
+
+  text-align: center;
+  color: white;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  text-shadow: 0 1px 5px black;
+}
+
+/* =========================
+   CAMERA CONTROLS
+========================= */
+
+.camera-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 22px 0 8px;
+}
+
+.capture-button {
+  width: 74px;
+  height: 74px;
+
+  border-radius: 50%;
+
+  border: 6px solid #d1d5db;
+
+  background: white;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.2);
+}
+
+.capture-button:active {
+  transform: scale(0.94);
+}
+
+/* =========================
+   PREVIEW
+========================= */
+
+#previewScreen {
+  display: none;
+}
+
+.preview-container {
+  width: 100%;
+  background: #111827;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+#previewImage {
+  width: 100%;
+  display: block;
+}
+
+.preview-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.secondary-button,
+.primary-button {
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.secondary-button {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+.primary-button {
+  border: none;
+  background: #111827;
+  color: white;
+}
+
+.back-button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  margin-top: 14px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Hidden canvas */
+
+#captureCanvas {
+  display: none;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .container {
+    margin-top: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .answer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .question {
+    justify-content: space-between;
+  }
+
+  .option {
+    width: 42px;
+    height: 42px;
+  }
+
+}
+
+</style>
 </head>
-
 
 <body>
 
-
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
@@ -361,15 +477,8 @@
     </div>
 
     <div>
-
-      <h1>
-        QuickMark
-      </h1>
-
-      <p>
-        Scan. Spot. Mark.
-      </p>
-
+      <h1>QuickMark</h1>
+      <p>Scan. Spot. Mark.</p>
     </div>
 
   </div>
@@ -377,23 +486,18 @@
 </div>
 
 
-
 <div class="container">
 
 
 <!-- =========================
-     SETUP SCREEN
+     SETUP
 ========================= -->
 
 <div id="setupScreen" class="card">
 
-
   <div class="section-title">
     Set Up Answer Key
   </div>
-
-
-  <!-- SUBJECT -->
 
   <div class="field">
 
@@ -431,11 +535,7 @@
   </div>
 
 
-
-  <!-- ANSWER KEY -->
-
   <div id="answerSection">
-
 
     <div class="progress-area">
 
@@ -446,15 +546,12 @@
         Answer Key
       </div>
 
-
       <div
         id="progressText"
         class="progress-text"
-      >
-      </div>
+      ></div>
 
     </div>
-
 
 
     <div class="progress-bar">
@@ -467,12 +564,10 @@
     </div>
 
 
-
     <div
       id="answerGrid"
       class="answer-grid"
     ></div>
-
 
 
     <button
@@ -488,72 +583,77 @@
     <div
       id="hint"
       class="hint"
-    >
-    </div>
-
+    ></div>
 
   </div>
 
 </div>
 
 
-
 <!-- =========================
-     SCAN SCREEN
+     CAMERA
 ========================= -->
 
-<div
-  id="scanScreen"
-  class="card"
->
+<div id="scanScreen" class="card">
 
+  <div class="scan-header">
 
-  <div class="section-title">
-    Scan Answer Sheet
-  </div>
-
-
-  <div
-    id="paperInfo"
-    class="paper-info"
-  >
-  </div>
-
-
-  <div class="scan-area">
-
-
-    <div class="camera-icon">
-      📷
+    <div class="section-title" style="margin:0;">
+      Scan Answer Sheet
     </div>
 
+    <div
+      id="subjectBadge"
+      class="subject-badge"
+    ></div>
 
-    <h2>
-      Ready to Scan
-    </h2>
+  </div>
 
 
-    <p>
+  <div class="camera-container">
 
-      Place the student's answer sheet
-      on a flat surface.
+    <video
+      id="camera"
+      autoplay
+      playsinline
+      muted
+    ></video>
 
-      <br><br>
 
-      Make sure the entire answer box
-      is visible.
+    <div class="alignment-overlay">
 
-    </p>
+      <div class="camera-instruction">
+        Align the answer box inside the frame
+      </div>
 
+
+      <div class="alignment-box">
+
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="camera-controls">
 
     <button
-      class="camera-button"
-      onclick="openCamera()"
-    >
-      Open Camera
-    </button>
+      class="capture-button"
+      onclick="capturePhoto()"
+      aria-label="Take photo"
+    ></button>
+
+  </div>
 
 
+  <div class="hint">
+    Keep the paper flat and make sure all four corners are visible.
   </div>
 
 
@@ -564,16 +664,76 @@
     ← Edit Answer Key
   </button>
 
+</div>
+
+
+<!-- =========================
+     PHOTO PREVIEW
+========================= -->
+
+<div id="previewScreen" class="card">
+
+  <div class="scan-header">
+
+    <div
+      class="section-title"
+      style="margin:0;"
+    >
+      Check Photo
+    </div>
+
+    <div
+      id="previewSubject"
+      class="subject-badge"
+    ></div>
+
+  </div>
+
+
+  <div class="preview-container">
+
+    <img
+      id="previewImage"
+      alt="Captured answer sheet"
+    >
+
+  </div>
+
+
+  <div class="hint" style="margin-top:14px;">
+    Check that the answer box is clear and completely visible.
+  </div>
+
+
+  <div class="preview-buttons">
+
+    <button
+      class="secondary-button"
+      onclick="retakePhoto()"
+    >
+      ↻ Retake
+    </button>
+
+
+    <button
+      class="primary-button"
+      onclick="usePhoto()"
+    >
+      Use Photo
+    </button>
+
+  </div>
 
 </div>
 
 
-</div>
+<canvas id="captureCanvas"></canvas>
 
+
+</div>
 
 
 <script>
-
 
 /* =========================
    VARIABLES
@@ -583,23 +743,20 @@ let TOTAL_QUESTIONS = 0;
 
 let answerKey = {};
 
+let cameraStream = null;
+
+let capturedImage = null;
 
 
 /* =========================
-   SUBJECT SETTINGS
+   SUBJECT
 ========================= */
 
 function subjectChanged() {
 
-
   const subject =
     document.getElementById("subject").value;
 
-
-  /*
-     Number of questions
-     depends on subject
-  */
 
   if (subject === "Mathematics") {
 
@@ -607,13 +764,10 @@ function subjectChanged() {
 
   }
 
-  else if (subject === "English") {
-
-    TOTAL_QUESTIONS = 25;
-
-  }
-
-  else if (subject === "Mother Tongue") {
+  else if (
+    subject === "English" ||
+    subject === "Mother Tongue"
+  ) {
 
     TOTAL_QUESTIONS = 25;
 
@@ -632,43 +786,28 @@ function subjectChanged() {
   }
 
 
-
-  /*
-     Clear previous answers
-     whenever subject changes
-  */
-
   answerKey = {};
 
 
-  const grid =
-    document.getElementById("answerGrid");
+  document.getElementById(
+    "answerGrid"
+  ).innerHTML = "";
 
-
-  grid.innerHTML = "";
-
-
-  /*
-     No subject selected
-  */
 
   if (TOTAL_QUESTIONS === 0) {
 
-    document.getElementById("answerSection")
-      .style.display = "none";
+    document.getElementById(
+      "answerSection"
+    ).style.display = "none";
 
     return;
 
   }
 
 
-
-  /*
-     Show answer section
-  */
-
-  document.getElementById("answerSection")
-    .style.display = "block";
+  document.getElementById(
+    "answerSection"
+  ).style.display = "block";
 
 
   createAnswerGrid();
@@ -678,13 +817,11 @@ function subjectChanged() {
 }
 
 
-
 /* =========================
-   CREATE ANSWER GRID
+   CREATE QUESTIONS
 ========================= */
 
 function createAnswerGrid() {
-
 
   const grid =
     document.getElementById("answerGrid");
@@ -696,35 +833,24 @@ function createAnswerGrid() {
     question++
   ) {
 
-
     const row =
       document.createElement("div");
-
 
     row.className = "question";
 
 
-
-    /* QUESTION NUMBER */
-
     const number =
       document.createElement("div");
 
-
     number.className =
       "question-number";
-
 
     number.textContent =
       "Q" + question;
 
 
-
-    /* ANSWER OPTIONS */
-
     const options =
       document.createElement("div");
-
 
     options.className =
       "options";
@@ -736,46 +862,33 @@ function createAnswerGrid() {
       answer++
     ) {
 
-
       const button =
         document.createElement("button");
-
 
       button.className =
         "option";
 
-
       button.textContent =
         answer;
-
 
       button.dataset.question =
         question;
 
 
-      button.dataset.answer =
-        answer;
+      button.onclick = function() {
 
+        selectAnswer(
+          question,
+          answer,
+          button
+        );
 
-
-      button.onclick =
-        function () {
-
-
-          selectAnswer(
-            question,
-            answer,
-            button
-          );
-
-
-        };
+      };
 
 
       options.appendChild(button);
 
     }
-
 
 
     row.appendChild(number);
@@ -789,7 +902,6 @@ function createAnswerGrid() {
 }
 
 
-
 /* =========================
    SELECT ANSWER
 ========================= */
@@ -800,16 +912,9 @@ function selectAnswer(
   clickedButton
 ) {
 
-
   answerKey[question] =
     answer;
 
-
-
-  /*
-     Remove previous selection
-     for this question
-  */
 
   const buttons =
     document.querySelectorAll(
@@ -819,21 +924,14 @@ function selectAnswer(
     );
 
 
-  buttons.forEach(
-    button => {
+  buttons.forEach(button => {
 
-      button.classList.remove(
-        "selected"
-      );
+    button.classList.remove(
+      "selected"
+    );
 
-    }
-  );
+  });
 
-
-
-  /*
-     Select new answer
-  */
 
   clickedButton.classList.add(
     "selected"
@@ -845,17 +943,14 @@ function selectAnswer(
 }
 
 
-
 /* =========================
-   UPDATE PROGRESS
+   PROGRESS
 ========================= */
 
 function updateProgress() {
 
-
   const completed =
     Object.keys(answerKey).length;
-
 
 
   document.getElementById(
@@ -868,29 +963,17 @@ function updateProgress() {
     " completed";
 
 
-
   const percentage =
     TOTAL_QUESTIONS > 0
-
-      ? (completed /
-         TOTAL_QUESTIONS) * 100
-
+      ? completed / TOTAL_QUESTIONS * 100
       : 0;
-
 
 
   document.getElementById(
     "progressFill"
   ).style.width =
-
     percentage + "%";
 
-
-
-  /*
-     Enable Start button only
-     when every answer is entered
-  */
 
   const complete =
     completed === TOTAL_QUESTIONS;
@@ -898,48 +981,37 @@ function updateProgress() {
 
   document.getElementById(
     "startButton"
-  ).disabled = !complete;
+  ).disabled =
+    !complete;
 
 
-
-  if (complete) {
-
-    document.getElementById(
-      "hint"
-    ).textContent =
-      "Answer key complete. Ready to scan.";
-
-  }
-
-  else {
-
-    const remaining =
-      TOTAL_QUESTIONS - completed;
+  const remaining =
+    TOTAL_QUESTIONS - completed;
 
 
-    document.getElementById(
-      "hint"
-    ).textContent =
+  document.getElementById(
+    "hint"
+  ).textContent =
 
-      "Complete " +
-      remaining +
-      " more " +
-      (remaining === 1
-        ? "answer."
-        : "answers.");
+    complete
 
-  }
+      ? "Answer key complete. Ready to scan."
+
+      : "Complete " +
+        remaining +
+        " more " +
+        (remaining === 1
+          ? "answer."
+          : "answers.");
 
 }
 
 
-
 /* =========================
-   START SCANNING
+   START SCANNER
 ========================= */
 
-function startScanning() {
-
+async function startScanning() {
 
   const subject =
     document.getElementById(
@@ -947,24 +1019,27 @@ function startScanning() {
     ).value;
 
 
+  document.getElementById(
+    "subjectBadge"
+  ).textContent =
+    subject + " • " +
+    TOTAL_QUESTIONS + " Qs";
+
 
   document.getElementById(
-    "paperInfo"
-  ).innerHTML =
-
-    "<strong>" +
-    subject +
-    "</strong>" +
-
-    " &nbsp;•&nbsp; " +
-
-    TOTAL_QUESTIONS +
-    " Questions";
-
+    "previewSubject"
+  ).textContent =
+    subject;
 
 
   document.getElementById(
     "setupScreen"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "previewScreen"
   ).style.display =
     "none";
 
@@ -975,13 +1050,261 @@ function startScanning() {
     "block";
 
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo(0,0);
+
+
+  await startCamera();
 
 }
 
+
+/* =========================
+   START CAMERA
+========================= */
+
+async function startCamera() {
+
+  stopCamera();
+
+
+  try {
+
+    /*
+      Prefer the rear camera.
+
+      Higher resolution helps us later
+      when detecting the answer bubbles.
+    */
+
+    const constraints = {
+
+      audio: false,
+
+      video: {
+
+        facingMode: {
+          ideal: "environment"
+        },
+
+        width: {
+          ideal: 1920
+        },
+
+        height: {
+          ideal: 1080
+        }
+
+      }
+
+    };
+
+
+    cameraStream =
+      await navigator.mediaDevices
+        .getUserMedia(constraints);
+
+
+    const video =
+      document.getElementById("camera");
+
+
+    video.srcObject =
+      cameraStream;
+
+
+    await video.play();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Camera error:",
+      error
+    );
+
+
+    alert(
+      "QuickMark could not open the camera.\n\n" +
+      "Please allow camera access in your browser and try again."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   CAPTURE
+========================= */
+
+function capturePhoto() {
+
+  const video =
+    document.getElementById("camera");
+
+
+  if (
+    !video.videoWidth ||
+    !video.videoHeight
+  ) {
+
+    alert(
+      "Camera is not ready yet."
+    );
+
+    return;
+
+  }
+
+
+  const canvas =
+    document.getElementById(
+      "captureCanvas"
+    );
+
+
+  canvas.width =
+    video.videoWidth;
+
+  canvas.height =
+    video.videoHeight;
+
+
+  const context =
+    canvas.getContext("2d");
+
+
+  context.drawImage(
+    video,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  /*
+     JPEG at high quality.
+
+     This captured image will eventually
+     be sent to our detector.
+  */
+
+  capturedImage =
+    canvas.toDataURL(
+      "image/jpeg",
+      0.92
+    );
+
+
+  document.getElementById(
+    "previewImage"
+  ).src =
+    capturedImage;
+
+
+  stopCamera();
+
+
+  document.getElementById(
+    "scanScreen"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "previewScreen"
+  ).style.display =
+    "block";
+
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   RETAKE
+========================= */
+
+async function retakePhoto() {
+
+  capturedImage = null;
+
+
+  document.getElementById(
+    "previewScreen"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "scanScreen"
+  ).style.display =
+    "block";
+
+
+  await startCamera();
+
+}
+
+
+/* =========================
+   USE PHOTO
+========================= */
+
+function usePhoto() {
+
+  /*
+    NEXT STEP:
+
+    capturedImage now contains
+    the student's photographed sheet.
+
+    We will:
+
+    1. Send image to detector
+    2. Straighten answer box
+    3. Locate answer bubbles
+    4. Determine selected answers
+    5. Compare with answerKey
+    6. Return wrong question numbers
+    7. Display them FULL SCREEN
+  */
+
+
+  alert(
+    "Photo captured successfully.\n\n" +
+    "Next we will connect this photo " +
+    "to QuickMark's answer detector."
+  );
+
+}
+
+
+/* =========================
+   STOP CAMERA
+========================= */
+
+function stopCamera() {
+
+  if (cameraStream) {
+
+    cameraStream
+      .getTracks()
+      .forEach(track => {
+
+        track.stop();
+
+      });
+
+
+    cameraStream = null;
+
+  }
+
+}
 
 
 /* =========================
@@ -990,9 +1313,17 @@ function startScanning() {
 
 function backToSetup() {
 
+  stopCamera();
+
 
   document.getElementById(
     "scanScreen"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "previewScreen"
   ).style.display =
     "none";
 
@@ -1005,58 +1336,14 @@ function backToSetup() {
 }
 
 
+/* Stop camera if page closes */
 
-/* =========================
-   CAMERA
-========================= */
-
-function openCamera() {
-
-
-  /*
-     NEXT STAGE:
-
-     Live phone camera
-
-     ↓
-
-     Answer sheet alignment frame
-
-     ↓
-
-     Capture
-
-     ↓
-
-     Detect shaded answers
-
-     ↓
-
-     Compare against answerKey
-
-     ↓
-
-     Flash incorrect question numbers
-
-     ↓
-
-     Teacher physically marks paper
-
-     ↓
-
-     Scan next paper
-  */
-
-
-  alert(
-    "Camera will be added in the next stage."
-  );
-
-}
-
+window.addEventListener(
+  "beforeunload",
+  stopCamera
+);
 
 </script>
-
 
 </body>
 </html>
