@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        content="width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0">
 
   <title>QuickMark</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -63,7 +67,7 @@
 
 
     /* =========================
-       MAIN CARD
+       MAIN
     ========================= */
 
     .container {
@@ -87,13 +91,10 @@
 
 
     /* =========================
-       PAPER DETAILS
+       SUBJECT
     ========================= */
 
-    .details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .field {
       margin-bottom: 28px;
     }
 
@@ -105,26 +106,28 @@
       color: #4b5563;
     }
 
-    select,
-    input {
+    select {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       border: 1px solid #d1d5db;
       border-radius: 10px;
       font-size: 16px;
       background: white;
     }
 
-    select:focus,
-    input:focus {
+    select:focus {
       outline: none;
       border-color: #111827;
     }
 
 
     /* =========================
-       PROGRESS
+       ANSWER KEY AREA
     ========================= */
+
+    #answerSection {
+      display: none;
+    }
 
     .progress-area {
       display: flex;
@@ -156,7 +159,7 @@
 
 
     /* =========================
-       ANSWER GRID
+       QUESTIONS
     ========================= */
 
     .answer-grid {
@@ -210,7 +213,7 @@
 
 
     /* =========================
-       BUTTON
+       START BUTTON
     ========================= */
 
     .start-button {
@@ -224,7 +227,6 @@
       font-size: 17px;
       font-weight: 700;
       cursor: pointer;
-      transition: 0.2s;
     }
 
     .start-button:disabled {
@@ -242,7 +244,7 @@
 
 
     /* =========================
-       SCANNING SCREEN
+       SCAN SCREEN
     ========================= */
 
     #scanScreen {
@@ -260,11 +262,13 @@
     .scan-area {
       border: 2px dashed #9ca3af;
       border-radius: 16px;
-      min-height: 300px;
+      min-height: 330px;
+
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
       text-align: center;
       padding: 30px;
       background: #fafafa;
@@ -324,10 +328,6 @@
         padding: 19px;
       }
 
-      .details {
-        grid-template-columns: 1fr;
-      }
-
       .answer-grid {
         grid-template-columns: 1fr;
       }
@@ -340,27 +340,36 @@
         width: 42px;
         height: 42px;
       }
+
     }
 
   </style>
 </head>
 
+
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <div class="header">
 
   <div class="header-inner">
 
-    <div class="logo">Q</div>
+    <div class="logo">
+      Q
+    </div>
 
     <div>
-      <h1>QuickMark</h1>
-      <p>Scan. Spot. Mark.</p>
+
+      <h1>
+        QuickMark
+      </h1>
+
+      <p>
+        Scan. Spot. Mark.
+      </p>
+
     </div>
 
   </div>
@@ -378,84 +387,111 @@
 
 <div id="setupScreen" class="card">
 
+
   <div class="section-title">
-    Set Up Paper
+    Set Up Answer Key
   </div>
 
 
-  <div class="details">
+  <!-- SUBJECT -->
 
-    <div class="field">
+  <div class="field">
 
-      <label>Subject</label>
+    <label>
+      Subject
+    </label>
 
-      <select id="subject">
+    <select
+      id="subject"
+      onchange="subjectChanged()"
+    >
 
-        <option value="">Select subject</option>
+      <option value="">
+        Select subject
+      </option>
 
-        <option>English</option>
-        <option>Mathematics</option>
-        <option>Science</option>
-        <option>Mother Tongue</option>
-        <option>Social Studies</option>
-        <option>Other</option>
+      <option value="English">
+        English
+      </option>
 
-      </select>
+      <option value="Mathematics">
+        Mathematics
+      </option>
 
-    </div>
+      <option value="Science">
+        Science
+      </option>
+
+      <option value="Mother Tongue">
+        Mother Tongue
+      </option>
+
+    </select>
+
+  </div>
 
 
-    <div class="field">
 
-      <label>Paper Name</label>
+  <!-- ANSWER KEY -->
 
-      <input
-        id="paperName"
-        type="text"
-        placeholder="e.g. Revision Paper 3"
+  <div id="answerSection">
+
+
+    <div class="progress-area">
+
+      <div
+        class="section-title"
+        style="margin:0;"
       >
+        Answer Key
+      </div>
+
+
+      <div
+        id="progressText"
+        class="progress-text"
+      >
+      </div>
 
     </div>
 
-  </div>
 
 
+    <div class="progress-bar">
 
-  <div class="progress-area">
+      <div
+        id="progressFill"
+        class="progress-fill"
+      ></div>
 
-    <div class="section-title" style="margin:0;">
-      Answer Key
     </div>
 
-    <div id="progressText" class="progress-text">
-      0 / 18 completed
+
+
+    <div
+      id="answerGrid"
+      class="answer-grid"
+    ></div>
+
+
+
+    <button
+      id="startButton"
+      class="start-button"
+      disabled
+      onclick="startScanning()"
+    >
+      Start Scanning
+    </button>
+
+
+    <div
+      id="hint"
+      class="hint"
+    >
     </div>
 
-  </div>
 
-
-  <div class="progress-bar">
-    <div id="progressFill" class="progress-fill"></div>
-  </div>
-
-
-
-  <div id="answerGrid" class="answer-grid"></div>
-
-
-
-  <button
-    id="startButton"
-    class="start-button"
-    disabled
-    onclick="startScanning()"
-  >
-    Start Scanning
-  </button>
-
-
-  <div id="hint" class="hint">
-    Select an answer for all 18 questions.
   </div>
 
 </div>
@@ -466,30 +502,47 @@
      SCAN SCREEN
 ========================= -->
 
-<div id="scanScreen" class="card">
+<div
+  id="scanScreen"
+  class="card"
+>
+
 
   <div class="section-title">
     Scan Answer Sheet
   </div>
 
 
-  <div id="paperInfo" class="paper-info"></div>
+  <div
+    id="paperInfo"
+    class="paper-info"
+  >
+  </div>
 
 
   <div class="scan-area">
+
 
     <div class="camera-icon">
       📷
     </div>
 
+
     <h2>
       Ready to Scan
     </h2>
 
+
     <p>
-      Place the student's answer sheet on a flat surface.
-      <br>
-      Make sure the whole answer box is visible.
+
+      Place the student's answer sheet
+      on a flat surface.
+
+      <br><br>
+
+      Make sure the entire answer box
+      is visible.
+
     </p>
 
 
@@ -499,6 +552,7 @@
     >
       Open Camera
     </button>
+
 
   </div>
 
@@ -510,6 +564,7 @@
     ← Edit Answer Key
   </button>
 
+
 </div>
 
 
@@ -519,75 +574,208 @@
 
 <script>
 
+
 /* =========================
-   SETTINGS
+   VARIABLES
 ========================= */
 
-const TOTAL_QUESTIONS = 18;
+let TOTAL_QUESTIONS = 0;
 
 let answerKey = {};
 
 
 
 /* =========================
-   CREATE QUESTIONS
+   SUBJECT SETTINGS
 ========================= */
 
-function createAnswerGrid() {
+function subjectChanged() {
+
+
+  const subject =
+    document.getElementById("subject").value;
+
+
+  /*
+     Number of questions
+     depends on subject
+  */
+
+  if (subject === "Mathematics") {
+
+    TOTAL_QUESTIONS = 18;
+
+  }
+
+  else if (subject === "English") {
+
+    TOTAL_QUESTIONS = 25;
+
+  }
+
+  else if (subject === "Mother Tongue") {
+
+    TOTAL_QUESTIONS = 25;
+
+  }
+
+  else if (subject === "Science") {
+
+    TOTAL_QUESTIONS = 30;
+
+  }
+
+  else {
+
+    TOTAL_QUESTIONS = 0;
+
+  }
+
+
+
+  /*
+     Clear previous answers
+     whenever subject changes
+  */
+
+  answerKey = {};
+
 
   const grid =
     document.getElementById("answerGrid");
 
-  for (let q = 1; q <= TOTAL_QUESTIONS; q++) {
+
+  grid.innerHTML = "";
+
+
+  /*
+     No subject selected
+  */
+
+  if (TOTAL_QUESTIONS === 0) {
+
+    document.getElementById("answerSection")
+      .style.display = "none";
+
+    return;
+
+  }
+
+
+
+  /*
+     Show answer section
+  */
+
+  document.getElementById("answerSection")
+    .style.display = "block";
+
+
+  createAnswerGrid();
+
+  updateProgress();
+
+}
+
+
+
+/* =========================
+   CREATE ANSWER GRID
+========================= */
+
+function createAnswerGrid() {
+
+
+  const grid =
+    document.getElementById("answerGrid");
+
+
+  for (
+    let question = 1;
+    question <= TOTAL_QUESTIONS;
+    question++
+  ) {
+
 
     const row =
       document.createElement("div");
 
+
     row.className = "question";
 
+
+
+    /* QUESTION NUMBER */
 
     const number =
       document.createElement("div");
 
-    number.className = "question-number";
 
-    number.textContent = "Q" + q;
+    number.className =
+      "question-number";
 
+
+    number.textContent =
+      "Q" + question;
+
+
+
+    /* ANSWER OPTIONS */
 
     const options =
       document.createElement("div");
 
-    options.className = "options";
+
+    options.className =
+      "options";
 
 
-    for (let option = 1; option <= 4; option++) {
+    for (
+      let answer = 1;
+      answer <= 4;
+      answer++
+    ) {
+
 
       const button =
         document.createElement("button");
 
-      button.className = "option";
 
-      button.textContent = option;
-
-      button.dataset.question = q;
-
-      button.dataset.answer = option;
+      button.className =
+        "option";
 
 
-      button.onclick = function () {
+      button.textContent =
+        answer;
 
-        selectAnswer(
-          q,
-          option,
-          button
-        );
 
-      };
+      button.dataset.question =
+        question;
+
+
+      button.dataset.answer =
+        answer;
+
+
+
+      button.onclick =
+        function () {
+
+
+          selectAnswer(
+            question,
+            answer,
+            button
+          );
+
+
+        };
 
 
       options.appendChild(button);
 
     }
+
 
 
     row.appendChild(number);
@@ -602,33 +790,54 @@ function createAnswerGrid() {
 
 
 
-createAnswerGrid();
-
-
-
 /* =========================
    SELECT ANSWER
 ========================= */
 
-function selectAnswer(question, answer, clickedButton) {
+function selectAnswer(
+  question,
+  answer,
+  clickedButton
+) {
 
-  answerKey[question] = answer;
 
+  answerKey[question] =
+    answer;
+
+
+
+  /*
+     Remove previous selection
+     for this question
+  */
 
   const buttons =
     document.querySelectorAll(
-      '.option[data-question="' + question + '"]'
+      '.option[data-question="' +
+      question +
+      '"]'
     );
 
 
-  buttons.forEach(button => {
+  buttons.forEach(
+    button => {
 
-    button.classList.remove("selected");
+      button.classList.remove(
+        "selected"
+      );
 
-  });
+    }
+  );
 
 
-  clickedButton.classList.add("selected");
+
+  /*
+     Select new answer
+  */
+
+  clickedButton.classList.add(
+    "selected"
+  );
 
 
   updateProgress();
@@ -638,117 +847,90 @@ function selectAnswer(question, answer, clickedButton) {
 
 
 /* =========================
-   PROGRESS
+   UPDATE PROGRESS
 ========================= */
 
 function updateProgress() {
+
 
   const completed =
     Object.keys(answerKey).length;
 
 
-  document.getElementById("progressText")
-    .textContent =
-    completed + " / " +
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+
+    completed +
+    " / " +
     TOTAL_QUESTIONS +
     " completed";
 
 
+
   const percentage =
-    (completed / TOTAL_QUESTIONS) * 100;
+    TOTAL_QUESTIONS > 0
+
+      ? (completed /
+         TOTAL_QUESTIONS) * 100
+
+      : 0;
 
 
-  document.getElementById("progressFill")
-    .style.width =
+
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+
     percentage + "%";
 
 
-  checkReady();
 
-}
+  /*
+     Enable Start button only
+     when every answer is entered
+  */
 
-
-
-/* =========================
-   CHECK WHETHER READY
-========================= */
-
-function checkReady() {
-
-  const subject =
-    document.getElementById("subject").value;
+  const complete =
+    completed === TOTAL_QUESTIONS;
 
 
-  const paper =
-    document.getElementById("paperName")
-      .value.trim();
+  document.getElementById(
+    "startButton"
+  ).disabled = !complete;
 
 
-  const answersComplete =
-    Object.keys(answerKey).length ===
-    TOTAL_QUESTIONS;
 
+  if (complete) {
 
-  const ready =
-    subject !== "" &&
-    paper !== "" &&
-    answersComplete;
-
-
-  document.getElementById("startButton")
-    .disabled = !ready;
-
-
-  if (!answersComplete) {
-
-    document.getElementById("hint")
-      .textContent =
-      "Select an answer for all 18 questions.";
-
-  }
-
-  else if (subject === "") {
-
-    document.getElementById("hint")
-      .textContent =
-      "Select a subject.";
-
-  }
-
-  else if (paper === "") {
-
-    document.getElementById("hint")
-      .textContent =
-      "Enter the paper name.";
+    document.getElementById(
+      "hint"
+    ).textContent =
+      "Answer key complete. Ready to scan.";
 
   }
 
   else {
 
-    document.getElementById("hint")
-      .textContent =
-      "Ready to scan.";
+    const remaining =
+      TOTAL_QUESTIONS - completed;
+
+
+    document.getElementById(
+      "hint"
+    ).textContent =
+
+      "Complete " +
+      remaining +
+      " more " +
+      (remaining === 1
+        ? "answer."
+        : "answers.");
 
   }
 
 }
-
-
-
-document
-  .getElementById("subject")
-  .addEventListener(
-    "change",
-    checkReady
-  );
-
-
-document
-  .getElementById("paperName")
-  .addEventListener(
-    "input",
-    checkReady
-  );
 
 
 
@@ -758,28 +940,39 @@ document
 
 function startScanning() {
 
+
   const subject =
-    document.getElementById("subject").value;
+    document.getElementById(
+      "subject"
+    ).value;
 
 
-  const paper =
-    document.getElementById("paperName").value;
 
+  document.getElementById(
+    "paperInfo"
+  ).innerHTML =
 
-  document.getElementById("paperInfo")
-    .innerHTML =
     "<strong>" +
     subject +
-    "</strong> &nbsp;•&nbsp; " +
-    paper;
+    "</strong>" +
+
+    " &nbsp;•&nbsp; " +
+
+    TOTAL_QUESTIONS +
+    " Questions";
 
 
-  document.getElementById("setupScreen")
-    .style.display = "none";
+
+  document.getElementById(
+    "setupScreen"
+  ).style.display =
+    "none";
 
 
-  document.getElementById("scanScreen")
-    .style.display = "block";
+  document.getElementById(
+    "scanScreen"
+  ).style.display =
+    "block";
 
 
   window.scrollTo({
@@ -792,17 +985,22 @@ function startScanning() {
 
 
 /* =========================
-   RETURN TO SETUP
+   BACK
 ========================= */
 
 function backToSetup() {
 
-  document.getElementById("scanScreen")
-    .style.display = "none";
+
+  document.getElementById(
+    "scanScreen"
+  ).style.display =
+    "none";
 
 
-  document.getElementById("setupScreen")
-    .style.display = "block";
+  document.getElementById(
+    "setupScreen"
+  ).style.display =
+    "block";
 
 }
 
@@ -814,28 +1012,48 @@ function backToSetup() {
 
 function openCamera() {
 
+
   /*
-    NEXT STAGE
+     NEXT STAGE:
 
-    This button will open the phone camera.
+     Live phone camera
 
-    We will add:
+     ↓
 
-    - Live camera preview
-    - Answer-sheet alignment frame
-    - Capture button
-    - Perspective correction
-    - Send image to Flask/OpenCV
-    - Receive detected answers
-    - Compare with answerKey
-    - Flash incorrect question numbers
+     Answer sheet alignment frame
+
+     ↓
+
+     Capture
+
+     ↓
+
+     Detect shaded answers
+
+     ↓
+
+     Compare against answerKey
+
+     ↓
+
+     Flash incorrect question numbers
+
+     ↓
+
+     Teacher physically marks paper
+
+     ↓
+
+     Scan next paper
   */
+
 
   alert(
     "Camera will be added in the next stage."
   );
 
 }
+
 
 </script>
 
